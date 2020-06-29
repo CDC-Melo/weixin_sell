@@ -1,0 +1,20 @@
+server:
+  servlet:
+    context-path: /sell
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+#  file:
+#    path: /var/log/tomcat
+#    name: /var/log/tomcat/sell.log
+#  level:
+#    com.imooc.weixin.LoggerTest: debug
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.228.138/sell?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
