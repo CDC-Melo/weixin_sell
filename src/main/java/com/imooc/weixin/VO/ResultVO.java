@@ -1,9 +1,11 @@
 package com.imooc.weixin.VO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 //HTTP请求返回的最外层对象
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultVO <T>
 {
     //错误码
