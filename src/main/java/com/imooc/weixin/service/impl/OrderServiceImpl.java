@@ -13,6 +13,7 @@ import com.imooc.weixin.exception.SellException;
 import com.imooc.weixin.repository.OrderDetailRepository;
 import com.imooc.weixin.repository.OrderMasterRepository;
 import com.imooc.weixin.service.OrderService;
+import com.imooc.weixin.service.PayService;
 import com.imooc.weixin.utils.KeyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,9 @@ public class OrderServiceImpl implements OrderService
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -168,7 +172,7 @@ public class OrderServiceImpl implements OrderService
         //如果已支付，需要退款
         if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode()))
         {
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
@@ -232,5 +236,18 @@ public class OrderServiceImpl implements OrderService
         }
 
         return orderDTO;
+    }
+
+    @Override
+    public Page<OrderDTO> findList(Pageable pageable)
+    {
+        Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
+
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+
+        Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(orderDTOList,pageable,orderMasterPage.getTotalElements());
+
+        return orderDTOPage;
+
     }
 }

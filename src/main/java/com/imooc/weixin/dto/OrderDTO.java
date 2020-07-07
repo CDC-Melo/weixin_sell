@@ -1,10 +1,12 @@
 package com.imooc.weixin.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imooc.weixin.dataobject.OrderDetail;
 import com.imooc.weixin.enums.OrderStatusEnum;
 import com.imooc.weixin.enums.PayStatusEnum;
+import com.imooc.weixin.utils.EnumUtil;
 import com.imooc.weixin.utils.serializer.Date2LongSerializer;
 import lombok.Data;
 
@@ -40,4 +42,16 @@ public class OrderDTO {
     private Date updateTime;
 
     List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum()
+    {
+        return EnumUtil.getByCode(orderStatus,OrderStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum()
+    {
+        return EnumUtil.getByCode(payStatus,PayStatusEnum.class);
+    }
 }
