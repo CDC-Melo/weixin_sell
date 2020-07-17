@@ -1,9 +1,11 @@
 package com.imooc.weixin.enums;
 import lombok.Getter;
+import org.aspectj.apache.bcel.classfile.Code;
 
 //商品状态
 @Getter
-public enum ProductStatusEnum {
+public enum ProductStatusEnum implements CodeEnum
+{
     UP(0,"在架"),
     DOWN(1,"下架");
 
