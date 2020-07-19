@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Time;
+import java.util.Date;
 
 @Entity
 @DynamicUpdate
@@ -28,6 +29,10 @@ public class ProductCategory
     //private Time createTime;
 
     //private Time updateTime;
+
+    private Date createTime;
+
+    private Date updateTime;
 
 
     public ProductCategory() {

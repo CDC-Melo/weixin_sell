@@ -12,72 +12,56 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <table class="table table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th>订单id</th>
-                            <th>姓名</th>
-                            <th>手机号</th>
-                            <th>地址</th>
-                            <th>金额</th>
-                            <th>订单状态</th>
-                            <th>支付状态</th>
-                            <th>创建时间</th>
-                            <th colspan="2">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <form role="form" method="post" action="/sell/seller/product/save">
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input name="productName" type="text" class="form-control" value="${(productInfo.productName)!''}"/>
+                        </div>
 
-                        <#list orderDTOPage.content as orderDTO>
-                            <tr>
-                                <td>${orderDTO.orderId}</td>
-                                <td>${orderDTO.buyerName}</td>
-                                <td>${orderDTO.buyerPhone}</td>
-                                <td>${orderDTO.buyerAddress}</td>
-                                <td>${orderDTO.orderAmount}</td>
-                                <td>${orderDTO.getOrderStatusEnum().getMsg()}</td>
-                                <td>${orderDTO.getPayStatusEnum().getMsg()}</td>
-                                <td>${orderDTO.createTime}</td>
-                                <td>
-                                    <a href="/sell/seller/order/detail?orderId=${orderDTO.orderId}">详情</a>
-                                </td>
-                                <td>
-                                    <#if orderDTO.getOrderStatusEnum().getMsg() == "新订单">
-                                        <a href="/sell/seller/order/cancel?orderId=${orderDTO.orderId}">取消</a>
-                                    </#if>
-                                </td>
-                            </tr>
-                        </#list>
-                        </tbody>
-                    </table>
+                        <div class="form-group">
+                            <label>价格</label>
+                            <input name="productPrice" type="text" class="form-control" value="${(productInfo.productPrice)!''}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>库存</label>
+                            <input name="productStock" type="number" class="form-control" value="${(productInfo.productStock)!''}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>描述</label>
+                            <input name="productDescription" type="text" class="form-control" value="${(productInfo.productDescription)!''}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>图片</label>
+                            <img height="100" width="100" src="${(productInfo.productIcon)!''}" alt="">
+                            <input name="productIcon" type="text" class="form-control" value="${(productInfo.productIcon)!''}"/>
+                        </div>
+
+                        <input hidden type="number" name="productStatus" value="${(productInfo.productStatus)!''}">
+
+                        <div class="form-group">
+                            <label>类目</label>
+                            <select name="categoryType" class="form-control">
+                                <#list categoryList as category>
+                                    <option value="${category.categoryType}"
+                                            <#if (productInfo.categoryType)?? && productInfo.categoryType == category.categoryType>
+                                            selected
+                                            </#if>
+                                        >${category.categoryName}
+                                    </option>
+                                </#list>
+                            </select>
+                        </div>
+
+                        <input hidden type="text" name="productId" value="${(productInfo.productId)!''}">
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </form>
                 </div>
             </div>
 
-            <#--        分页-->
-            <div class="col-md-12 column">
-                <ul class="pagination pull-right">
-                    <#if currentPage lte 1>
-                        <li class="disabled"><a href="#">上一页</a></li>
-                    <#else>
-                        <li><a href="?page=${currentPage - 1}&size=${size}">上一页</a></li>
-                    </#if>
 
-                    <#list 1..orderDTOPage.getTotalPages() as index>
-                        <#if currentPage == index>
-                            <li class="disabled">
-                                <a href="#">${index}</a>
-                            </li>
-                        <#else>
-                            <li><a href="?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
-                    <#if currentPage gte orderDTOPage.getTotalPages()>
-                        <li class="disabled"><a href="#">下一页</a></li>
-                    <#else>
-                        <li><a href="?page=${currentPage + 1}&size=${size}">下一页</a></li>
-                    </#if>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
