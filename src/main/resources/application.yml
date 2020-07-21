@@ -33,6 +33,8 @@ wechat:
   mchKey: c976503d34ca432c601361f969fd8d85
   keyPath: /var/weixin_cert/h5.p12
   notifyUrl: http://qumasha.natapp1.cc/sell/pay/notify
+  templateId:
+    orderStatus: xxxxxxx
 
 projecturl:
   wechatMpAuthorize: http://qumasha.natapp1.cc

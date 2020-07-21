@@ -14,6 +14,8 @@ import com.imooc.weixin.repository.OrderDetailRepository;
 import com.imooc.weixin.repository.OrderMasterRepository;
 import com.imooc.weixin.service.OrderService;
 import com.imooc.weixin.service.PayService;
+import com.imooc.weixin.service.PushMessageService;
+import com.imooc.weixin.service.WebSocket;
 import com.imooc.weixin.utils.KeyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,12 @@ public class OrderServiceImpl implements OrderService
 
     @Autowired
     private PayService payService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     @Transactional
@@ -96,6 +104,9 @@ public class OrderServiceImpl implements OrderService
         ).collect(Collectors.toList());
 
         productService.decreaseStock(cartDTOList);
+
+        //发送websocket消息
+        webSocket.sendMessage(orderDTO.getOrderId());
 
         return orderDTO;
     }
@@ -200,6 +211,9 @@ public class OrderServiceImpl implements OrderService
             logger.error("[完结订单] 更新失败,orderMaster={}",orderMaster);
             throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
         }
+
+        //推送微信模板消息
+        pushMessageService.orderStatus(orderDTO);
 
         return orderDTO;
     }

@@ -81,7 +81,7 @@ public class SellerUserController
             //2.清除redis
             redisTemplate.opsForValue().getOperations().delete(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()));
 
-            //3.清楚cookie
+            //3.清除cookie
             CookieUtil.set(response,CookieConstant.TOKEN,null,0);
         }
 

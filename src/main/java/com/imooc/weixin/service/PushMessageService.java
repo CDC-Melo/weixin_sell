@@ -5,7 +5,7 @@ import com.imooc.weixin.dto.OrderDTO;
 /**
  * 推送消息
  */
-public interface PushMessage
+public interface PushMessageService
 {
     /**
      * 订单状态变更消息
